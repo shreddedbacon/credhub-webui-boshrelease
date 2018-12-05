@@ -1,0 +1,5 @@
+set -e
+
+tar -zxf credhub-webui/credhub-webui-*.tgz \
+  -C ${BOSH_INSTALL_TARGET} \
+  --strip-components=1

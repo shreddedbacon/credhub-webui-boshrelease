@@ -1,0 +1,9 @@
+---
+name: credhub-webui
+
+templates: {}
+
+packages:
+  - credhub-webui
+
+properties: {}
