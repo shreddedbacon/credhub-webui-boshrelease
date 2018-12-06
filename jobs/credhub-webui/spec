@@ -1,9 +1,26 @@
 ---
 name: credhub-webui
 
-templates: {}
+templates:
+  ctl.erb: bin/ctl
+  ssl.cert.erb: ssl/ssl.cert
+  ssl.key.erb: ssl/ssl.key
 
 packages:
   - credhub-webui
 
-properties: {}
+properties:
+  credhub_server:
+    description: "ip or hostname and port of credhub server to target"
+    example: "https://192.168.50.6:8844"
+  cookie_key:
+    description: "Must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)"
+    default: "super-secret-key"
+  cookie_name:
+    description: "Name of the cookie to use"
+    default: "auth-cookie"
+  ssl:
+    certificate:
+      description: "Certificate to use for the front end"
+    private_key:
+      description: "Private key for the certificate"

@@ -1,0 +1,5 @@
+check process credhub-webui
+  with pidfile /var/vcap/sys/run/credhub-webui/pid
+  start program "/var/vcap/jobs/credhub-webui/bin/ctl start"
+  stop program "/var/vcap/jobs/credhub-webui/bin/ctl stop"
+  group vcap

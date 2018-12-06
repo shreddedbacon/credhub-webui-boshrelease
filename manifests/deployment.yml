@@ -1,0 +1,49 @@
+---
+name: credhub-webui
+
+releases:
+- name: credhub-webui
+  version: latest
+
+stemcells:
+- os: ubuntu-trusty
+  alias: default
+  version: latest
+
+instance_groups:
+- name: web
+  instances: 1
+  stemcell: default
+  azs: [z1]
+  vm_type: default
+  persistent_disk_type: default
+  networks:
+  - name: default
+  jobs:
+  - name: credhub-webui
+    release: credhub-webui
+    properties:
+      credhub_server: "https://192.168.50.6:8844"
+      ssl:
+        certificate: ((credhub_webui_tls.certificate))
+        key: ((credhub_webui_tls.private_key))
+
+variables:
+  #- name: credhub_webui_ca
+  #  type: certificate
+  #  options:
+  #    is_ca: true
+  #    common_name: credhub-webui.local
+- name: credhub_webui_tls
+  type: certificate
+  options:
+    #    ca: credhub_webui_ca
+    self_sign: true
+    common_name: credhub-webui.local
+    alternative_names: [localhost]
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  canary_watch_time: 30000-600000
+  update_watch_time: 5000-600000
