@@ -3,7 +3,9 @@ name: credhub-webui
 
 releases:
 - name: credhub-webui
-  version: latest
+  version: "0.0.1"
+  sha1: "2b11b1985106a68effae0ec2550ec624cbd9e713"
+  url: "https://github.com/shreddedbacon/credhub-webui-boshrelease/releases/download/v0.0.1/credhub-webui-boshrelease-0.0.1.tgz"
 
 stemcells:
 - os: ubuntu-trusty
