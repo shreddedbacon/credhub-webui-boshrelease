@@ -19,6 +19,12 @@ properties:
   cookie_name:
     description: "Name of the cookie to use"
     default: "auth-cookie"
+  client_id:
+    description: "client id in uaa that has authorized-grant-types: authorization_code,refresh_token"
+  client_secret:
+    description: "secret for the client"
+  ui_url:
+    description: "the url used to access the ui, is used for oauth callback"
   ssl:
     certificate:
       description: "Certificate to use for the front end"

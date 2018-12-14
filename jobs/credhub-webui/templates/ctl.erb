@@ -23,6 +23,9 @@ case $1 in
       -cookie-name "<%= p("cookie_name") %>" \
       -ui-ssl-cert $CERT_DIR/ssl.cert \
       -ui-ssl-key $CERT_DIR/ssl.key \
+      -ui-url "<%= p("ui_url") %>" \
+      -client-id "<%= p("client_id") %>" \
+      -client-secret "<%= p("client_secret") %>" \
       >>  $LOG_DIR/server.stdout.log \
       2>> $LOG_DIR/server.stderr.log
 
