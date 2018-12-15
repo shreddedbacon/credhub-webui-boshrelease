@@ -1,7 +1,13 @@
 #!/bin/bash
 echo "Download blobs"
-VERSION=0.0.1
-if [ ! -d src/credhub-webui ]; then
-  mkdir -p src/credhub-webui
+if [ $1 ]
+then
+  VERSION=$1
+else
+  VERSION=0.0.2
 fi
-curl -L "https://github.com/shreddedbacon/credhub-webui/releases/download/v$VERSION/credhub-webui-linux-$VERSION.tgz > src/credhub-webui/credhub-webui-linux-$VERSION.tgz"
+if [ ! -d .downloads ]; then
+  mkdir -p .downloads
+fi
+curl -L https://github.com/shreddedbacon/credhub-webui/releases/download/v$VERSION/credhub-webui-linux-$VERSION.tgz > .downloads/credhub-webui-linux-$VERSION.tgz
+bosh add-blob .downloads/credhub-webui-linux-$VERSION.tgz credhub-webui/credhub-webui-linux-$VERSION.tgz

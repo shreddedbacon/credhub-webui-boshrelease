@@ -12,4 +12,4 @@ releases/**/*.tgz
 *~
 *#
 #*
-src/credhub-webui/credhub-webui-*.tgz
+.downloads
