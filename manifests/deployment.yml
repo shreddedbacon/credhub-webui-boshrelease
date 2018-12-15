@@ -28,7 +28,7 @@ instance_groups:
       credhub_server: "((credhub_server))"
       ui_url: "https://((credhub_webui_hostname)):8443"
       client_id: ((credhub_client_id))
-      client_secret: ((credhub_client__secret))
+      client_secret: ((credhub_client_secret))
       ssl:
         certificate: ((credhub_webui_tls.certificate))
         key: ((credhub_webui_tls.private_key))
