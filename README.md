@@ -7,7 +7,11 @@ git clone https://github.com/shreddedbacon/credhub-webui-boshrelease.git credhub
 ```
 ## Deploy
 ```
-bosh -d credhub-webui deploy manifests/deployment.yml
+bosh -d credhub-webui deploy manifests/deployment.yml \
+  -v credhub_webui_hostname=credhubwebui.local \
+  -v credhub_client_id=credhub \
+  -v credhub_client_secret=secret \
+  -v credhub_server=https://credhubserver.local:8844
 ```
 ## List Instances
 ```
