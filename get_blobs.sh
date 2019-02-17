@@ -4,7 +4,7 @@ if [ $1 ]
 then
   VERSION=$1
 else
-  VERSION=0.0.2
+  VERSION=0.0.4
 fi
 if [ ! -d .downloads ]; then
   mkdir -p .downloads
