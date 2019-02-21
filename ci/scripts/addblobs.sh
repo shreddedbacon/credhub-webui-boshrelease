@@ -8,14 +8,6 @@ header() {
 	echo $*
 	echo
 }
-cat > releases.yml << EOF
----
-- type: replace
-  path: /releases
-  value:
-    - name: credhub-webui
-      version: latest
-EOF
 
 pushd bosh-release
 echo > config/blobs.yml
@@ -33,6 +25,15 @@ fi
 export BOSH_CA_CERT=${BOSH_CA_CERT}
 export BOSH_CLIENT=${BOSH_USERNAME}
 export BOSH_CLIENT_SECRET=${BOSH_PASSWORD}
+
+cat > ../releases.yml << EOF
+---
+- type: replace
+  path: /releases
+  value:
+    - name: credhub-webui
+      version: $VERSION_FROM
+EOF
 
 bosh create-release --force --version=$VERSION_FROM
 bosh -n -e ${BOSH_TARGET} upload-release || echo "Continuing..."
