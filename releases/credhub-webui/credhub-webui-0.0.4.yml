@@ -1,0 +1,19 @@
+name: credhub-webui
+version: 0.0.4
+commit_hash: b055064
+uncommitted_changes: false
+jobs:
+- name: credhub-webui
+  version: ae92d26627f62fccbb7c98a39f9c8295edfeb0ad
+  fingerprint: ae92d26627f62fccbb7c98a39f9c8295edfeb0ad
+  sha1: 2ab275fbc3119646387b56a34ffe21423a5bdbb6
+packages:
+- name: credhub-webui
+  version: 7c300f89d3bd0edd7cfcfe28cbf979760db3aa09
+  fingerprint: 7c300f89d3bd0edd7cfcfe28cbf979760db3aa09
+  sha1: 839f86ee2013810e5f47cbf8003e879588517c76
+  dependencies: []
+license:
+  version: e7b804a15bb9c52a4685472dcf90b3e8684f1499
+  fingerprint: e7b804a15bb9c52a4685472dcf90b3e8684f1499
+  sha1: 04cb2b46ac2cfc0ce89132f934787df2ac52eae3
