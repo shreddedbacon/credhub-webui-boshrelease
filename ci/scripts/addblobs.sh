@@ -8,6 +8,14 @@ header() {
 	echo $*
 	echo
 }
+cat > releases.yml << EOF
+---
+- type: replace
+  path: /releases
+  value:
+    - name: credhub-webui
+      version: latest
+EOF
 
 pushd bosh-release
 echo > config/blobs.yml
@@ -29,6 +37,7 @@ export BOSH_CLIENT_SECRET=${BOSH_PASSWORD}
 bosh create-release --force
 bosh -n -e ${BOSH_TARGET} upload-release || echo "Continuing..."
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} d ./manifests/deployment.yml \
+  -o ../releases.yml \
   -v credhub_webui_hostname=credhubwebui.local \
   -v credhub_client_id=credhub-admin \
   -v credhub_client_secret=${CREDHUB_ADMIN_SECRET} \
