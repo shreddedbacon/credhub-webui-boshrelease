@@ -1,1 +1,5 @@
 name: credhub-webui
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/
