@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 pushd bosh-release
-rm config/blobs.yml
+echo > config/blobs.yml
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
 ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
