@@ -3,7 +3,6 @@
 groups:
   - name: 'credhub-webui-boshrelease-builder'
     jobs:
-      - blobs
       - test-release
       - bump-rc
       - promote-release
@@ -32,6 +31,7 @@ jobs:
           inputs:
             - { name: credhub-webui-external }
             - { name: bosh-release }
+            - { name: version }
           outputs:
             - { name: pushgit }
             - { name: message }
@@ -51,36 +51,6 @@ jobs:
 #        params:
 #          repository: pushgit/bosh-release
 
-  - name: blobs
-    public: true
-    serial: true
-    plan:
-    - do:
-      - aggregate:
-        - get: bosh-release
-          trigger: true
-        - get: version
-      - task: build-release
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: concourse/bosh-cli
-          inputs:
-            - name: bosh-release
-            - name: version
-          outputs:
-            - name: built-release
-          run:
-            path: ./bosh-release/ci/scripts/test.sh
-            args: []
-          params:
-            VERSION_FROM: version/number
-      - name: upload-binary
-        put: credhub-webui-bucket
-        params:
-          file:  "built-release/credhub-webui-boshrelease-*.tar.gz"
   - name: bump-rc
     public: true
     plan:
@@ -88,7 +58,7 @@ jobs:
       - aggregate:
           - { get: bosh-release,     trigger: true,  passed: [test-release] }
           - { get: version, trigger: true, params: {pre: rc} }
-          - { get: credhub-webui-bucket, trigger: true }
+          - { get: credhub-webui-external,  passed: [test-release]}
       - put: version
         params: {file: version/number}
 
@@ -115,7 +85,7 @@ jobs:
         aggregate:
           - { get: version, passed: [bump-rc], params: {bump: final} }
           - { get: bosh-release,     passed: [bump-rc] }
-          - { get: credhub-webui-bucket, passed: [bump-rc] }
+          - { get: credhub-webui-external, passed: [bump-rc] }
       - name: release
         task: release
         config:
@@ -124,9 +94,9 @@ jobs:
             type: docker-image
             source: {repository: concourse/bosh-cli }
           inputs:
-            - name: version
-            - name: bosh-release
-            - name: credhub-webui-bucket
+            - { name: credhub-webui-external }
+            - { name: bosh-release }
+            - { name: version }
           outputs:
             - name: gh
             - name: pushme
@@ -137,6 +107,7 @@ jobs:
             GITHUB_OWNER: ((github.user))
             GITHUB_REPO:  ((github.repository))
             BRANCH:       ((github.branch))
+            RELEASE_NAME: credhub-webui-boshrelease
       - name: release
         task: release
         config:
@@ -154,22 +125,22 @@ jobs:
               - |
                 ls gh/**/*
                 ls pushme/**/*
-#      - name: upload-git
-#        put: bosh-release
-#        params:
-#          rebase: true
-#          repository: pushme/bosh-release
-#      - name: github-release
-#        put: github-release
-#        params:
-#          name:   gh/name
-#          tag:    gh/tag
-#          body:   gh/notes.md
-#          globs: [gh/artifacts/*]
-#      - name: version-bump
-#        put: version
-#        params:
-#          bump: patch
+      - name: upload-git
+        put: bosh-release
+        params:
+          rebase: true
+          repository: pushme/bosh-release
+      - name: github-release
+        put: github-release
+        params:
+          name:   gh/name
+          tag:    gh/tag
+          body:   gh/notes.md
+          globs: [gh/artifacts/*]
+      - name: version-bump
+        put: version
+        params:
+          bump: patch
 
 resource_types:
 
@@ -182,13 +153,13 @@ resources:
       branch:      ((github.branch))
       private_key: ((github.private_key))
 
-#  - name: github-release
-#    type: github-release
-#    check_every: 15m
-#    source:
-#      user:         ((github.user))
-#      repository:   ((github.repository))
-#      access_token: ((github.access_token))
+  - name: github-release
+    type: github-release
+    check_every: 15m
+    source:
+      user:         ((github.user))
+      repository:   ((github.repository))
+      access_token: ((github.access_token))
 
   - name: credhub-webui-external
     type: github-release
@@ -209,11 +180,11 @@ resources:
       secret_access_key: ((aws.secret_key))
       endpoint:          ((aws.endpoint))
 
-  - name: credhub-webui-bucket
-    type: s3
-    source:
-      bucket:            credhub-boshrelease
-      access_key_id:     ((aws.access_key))
-      secret_access_key: ((aws.secret_key))
-      regexp:            "credhub-webui-boshrelease-(.*).tar.gz"
-      endpoint:          ((aws.endpoint))
+#  - name: credhub-webui-bucket
+#    type: s3
+#    source:
+#      bucket:            credhub-boshrelease
+#      access_key_id:     ((aws.access_key))
+#      secret_access_key: ((aws.secret_key))
+#      regexp:            "credhub-webui-boshrelease-(.*).tar.gz"
+#      endpoint:          ((aws.endpoint))

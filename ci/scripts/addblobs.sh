@@ -43,6 +43,10 @@ EOF
 
 bosh create-release --force --version=$VERSION
 bosh -n -e ${BOSH_TARGET} upload-release || echo "Continuing..."
+
+# delete any failed previous tests
+bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} deld --force || echo "continuing on..."
+
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} d ./manifests/deployment.yml \
   -o ../releases.yml \
   -v credhub_webui_hostname=credhubwebui.local \
@@ -58,6 +62,8 @@ fi
 header "Cleaning up..."
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} deld --force || echo "continuing on..."
 bosh -n -e ${BOSH_TARGET} clean-up --client=${BOSH_USERNAME} || echo "continuing on..."
+
+## Delete the release afterwards
 bosh -n -e ${BOSH_TARGET} delete-release credhub-webui/$VERSION
 popd
 
