@@ -21,6 +21,7 @@ jobs:
           params:
             include_source_tarball: true
         - get: bosh-release
+          trigger: true
         - get: version
       - task: upload-blob-test-release
         config:
