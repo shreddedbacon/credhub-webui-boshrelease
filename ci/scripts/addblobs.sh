@@ -2,7 +2,7 @@
 set -eu -o pipefail
 pushd bosh-release
 rm config/blobs.yml
-NEW_VERSION=credhub-webui-linux-$(cat ../amsa-drupal-external/version).tgz
+NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tgz
 bosh add-blob ../credhub-webui-external/NEW_VERSION credhub-webui/NEW_VERSION
 repo_changes=0; git status | grep -q "Changes not staged for commit" && repo_changes=1
 if [ $repo_changes == 1 ]
