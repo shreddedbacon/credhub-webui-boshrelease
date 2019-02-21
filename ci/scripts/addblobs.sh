@@ -15,6 +15,15 @@ if [[ -z ${VERSION_FROM} ]]; then
 fi
 VERSION=$(cat ${VERSION_FROM})
 
+cat > bosh-release/config/private.yml << EOF
+---
+blobstore:
+  options:
+    access_key_id: ${AWS_ACCESS_KEY}
+    secret_access_key: ${AWS_SECRET_KEY}
+    host: ${AWS_ENDPOINT}
+EOF
+
 pushd bosh-release
 echo > config/blobs.yml
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
