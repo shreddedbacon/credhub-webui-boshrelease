@@ -22,7 +22,7 @@ ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
 
 mkdir -p releases/${RELEASE_NAME}/${RELEASE_NAME}
-bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final)
+bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
 
 mkdir -p gh/artifacts
 echo "v${VERSION}"                         > gh/tag
@@ -49,11 +49,12 @@ popd
 git config --global user.name "CICD Robot"
 git config --global user.email "cicd@oakton.digital"
 
-(cd bosh-release
+pushd bosh-release
  git merge --no-edit ${BRANCH}
  git add -A
  git status
- git commit -m "release v${VERSION}")
+ git commit -m "release v${VERSION}"
+popd
 
 # so that future steps in the pipeline can push our changes
 cp -a bosh-release pushme
