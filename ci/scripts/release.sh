@@ -23,6 +23,7 @@ bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
 
 mkdir -p releases/${RELEASE_NAME}/${RELEASE_NAME}
 bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
+popd
 
 mkdir -p gh/artifacts
 echo "v${VERSION}"                         > gh/tag
@@ -43,8 +44,6 @@ releases:
   url: https://github.com/shreddedbacon/credhub-webui-boshrelease/releases/download/v$VERSION/credhub-webui-boshrelease-$VERSION.tgz
 \`\`\`
 EOF
-
-popd
 
 git config --global user.name "CICD Robot"
 git config --global user.email "cicd@oakton.digital"
