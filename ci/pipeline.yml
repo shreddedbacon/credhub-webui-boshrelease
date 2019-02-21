@@ -23,7 +23,7 @@ jobs:
             include_source_tarball: true
         - get: bosh-release
         - get: version
-      - task: add-upload-blob
+      - task: upload-blob-test-release
         config:
           platform: linux
           image_resource:
@@ -40,11 +40,12 @@ jobs:
           params:
             VERSION_FROM: version/number
             BOSH_TARGET: ((bosh_environment))
-            BOSH_DEPLOYMENT: credhub-credhub
+            BOSH_DEPLOYMENT: credhub-webui
             BOSH_CA_CERT: ((bosh_ca_cert))
             BOSH_USERNAME: admin
             BOSH_PASSWORD: ((bosh_client_secret))
             CREDHUB_ADMIN_SECRET: ((credhub_client_secret))
+            TEST_ERRAND: ""
 #      - name: upload-git
 #        put: bosh-release
 #        params:

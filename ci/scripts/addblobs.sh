@@ -1,5 +1,14 @@
 #!/bin/bash
 set -eu -o pipefail
+
+header() {
+	echo
+	echo "###############################################"
+	echo
+	echo $*
+	echo
+}
+
 pushd bosh-release
 echo > config/blobs.yml
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
