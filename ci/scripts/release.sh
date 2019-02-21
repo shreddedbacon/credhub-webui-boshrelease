@@ -24,7 +24,7 @@ blobstore:
   options:
     access_key_id: ${AWS_ACCESS_KEY}
     secret_access_key: ${AWS_SECRET_KEY}
-    endpoint: ${AWS_ENDPOINT}
+    host: ${AWS_ENDPOINT}
 EOF
 
 pushd bosh-release
