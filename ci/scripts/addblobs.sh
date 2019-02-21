@@ -9,6 +9,12 @@ header() {
 	echo
 }
 
+echo "0+dev.1" > /tmp/version
+if [[ -z ${VERSION_FROM} ]]; then
+  VERSION_FROM=/tmp/version
+fi
+VERSION=$(cat ${VERSION_FROM})
+
 pushd bosh-release
 echo > config/blobs.yml
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
@@ -32,10 +38,10 @@ cat > ../releases.yml << EOF
   path: /releases
   value:
     - name: credhub-webui
-      version: $VERSION_FROM
+      version: $VERSION
 EOF
 
-bosh create-release --force --version=$VERSION_FROM
+bosh create-release --force --version=$VERSION
 bosh -n -e ${BOSH_TARGET} upload-release || echo "Continuing..."
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} d ./manifests/deployment.yml \
   -o ../releases.yml \
@@ -52,7 +58,7 @@ fi
 header "Cleaning up..."
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} deld --force || echo "continuing on..."
 bosh -n -e ${BOSH_TARGET} clean-up --client=${BOSH_USERNAME} || echo "continuing on..."
-bosh -n -e ${BOSH_TARGET} delete-release credhub-webui/$VERSION_FROM
+bosh -n -e ${BOSH_TARGET} delete-release credhub-webui/$VERSION
 popd
 
 cp -a bosh-release pushgit
