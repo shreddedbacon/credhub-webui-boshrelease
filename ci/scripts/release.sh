@@ -20,7 +20,7 @@ git config --global user.email "bacon@bot"
 
 pushd bosh-release
 
-cat > bosh-release/config/private.yml << EOF
+cat > config/private.yml << EOF
 ---
 blobstore:
   provider: local
