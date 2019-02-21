@@ -25,7 +25,7 @@ cat > config/private.yml << EOF
 blobstore:
   provider: local
   options:
-    blobstore_path: /tmp/
+    blobstore_path: blobs/
 EOF
 
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
