@@ -15,14 +15,20 @@ if [[ -z ${VERSION_FROM} ]]; then
 fi
 VERSION=$(cat ${VERSION_FROM})
 
+git config --global user.name "BaconBot"
+git config --global user.email "bacon@bot"
+
 pushd bosh-release
 
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
 ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
 
+git status
+git commit -m "new blob $NEW_VERSION"
+
 mkdir -p releases/${RELEASE_NAME}/${RELEASE_NAME}
-bosh -n create-release --force --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
+bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
 popd
 
 mkdir -p gh/artifacts
@@ -44,9 +50,6 @@ releases:
   url: https://github.com/shreddedbacon/credhub-webui-boshrelease/releases/download/v$VERSION/credhub-webui-boshrelease-$VERSION.tgz
 \`\`\`
 EOF
-
-git config --global user.name "CICD Robot"
-git config --global user.email "cicd@oakton.digital"
 
 pushd bosh-release
  git merge --no-edit ${BRANCH}
