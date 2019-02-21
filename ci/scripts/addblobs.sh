@@ -34,7 +34,7 @@ export BOSH_CA_CERT=${BOSH_CA_CERT}
 export BOSH_CLIENT=${BOSH_USERNAME}
 export BOSH_CLIENT_SECRET=${BOSH_PASSWORD}
 
-bosh create-release --force
+bosh create-release --force --version=$VERSION_FROM
 bosh -n -e ${BOSH_TARGET} upload-release || echo "Continuing..."
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} d ./manifests/deployment.yml \
   -o ../releases.yml \
@@ -51,7 +51,7 @@ fi
 header "Cleaning up..."
 bosh -n -e ${BOSH_TARGET} -d ${BOSH_DEPLOYMENT} deld --force || echo "continuing on..."
 bosh -n -e ${BOSH_TARGET} clean-up --client=${BOSH_USERNAME} || echo "continuing on..."
-
+bosh -n -e ${BOSH_TARGET} delete-release credhub-webui/$VERSION_FROM
 popd
 
 cp -a bosh-release pushgit
