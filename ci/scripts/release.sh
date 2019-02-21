@@ -25,7 +25,7 @@ ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
 
 git status
-git commit -m "new blob $NEW_VERSION"
+git commit -m "new blob $NEW_VERSION" config/blobs.yml
 
 mkdir -p releases/${RELEASE_NAME}/${RELEASE_NAME}
 bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
