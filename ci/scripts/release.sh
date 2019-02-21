@@ -18,6 +18,15 @@ VERSION=$(cat ${VERSION_FROM})
 git config --global user.name "BaconBot"
 git config --global user.email "bacon@bot"
 
+cat > bosh-release/config/private.yml << EOF
+---
+blobstore:
+  options:
+    access_key_id: ${AWS_ACCESS_KEY}
+    secret_access_key: ${AWS_SECRET_KEY}
+    endpoint: ${AWS_ENDPOINT}
+EOF
+
 pushd bosh-release
 
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz

@@ -46,6 +46,9 @@ jobs:
             BOSH_USERNAME: admin
             BOSH_PASSWORD: ((bosh_client_secret))
             CREDHUB_ADMIN_SECRET: ((credhub_client_secret))
+            AWS_ACCESS_KEY: ((aws.access_key))
+            AWS_SECRET_KEY: ((aws.secret_key))
+            AWS_ENDPOINT: ((aws.endpoint))
             TEST_ERRAND: ""
 #      - name: upload-git
 #        put: bosh-release

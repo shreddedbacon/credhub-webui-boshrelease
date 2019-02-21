@@ -1,5 +1,5 @@
 name: credhub-webui
 blobstore:
-  provider: local
+  provider: s3
   options:
-    blobstore_path: /tmp/
+    bucket_name: credhub-boshrelease
