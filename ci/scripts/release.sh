@@ -20,6 +20,14 @@ git config --global user.email "bacon@bot"
 
 pushd bosh-release
 
+cat > bosh-release/config/private.yml << EOF
+---
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/
+EOF
+
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
 ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
