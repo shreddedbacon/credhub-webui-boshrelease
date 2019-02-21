@@ -1,4 +1,4 @@
 set -e
 
-tar -zxf credhub-webui/credhub-webui-*.tgz \
+tar -zxf credhub-webui/credhub-webui-*.tar.gz \
   -C ${BOSH_INSTALL_TARGET}

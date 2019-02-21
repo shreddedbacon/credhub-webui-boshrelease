@@ -2,4 +2,4 @@
 name: credhub-webui
 
 files:
-- credhub-webui/*.tgz
+- credhub-webui/*.tar.gz
