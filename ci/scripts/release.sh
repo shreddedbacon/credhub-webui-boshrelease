@@ -52,10 +52,19 @@ releases:
 EOF
 
 pushd bosh-release
- git merge --no-edit ${BRANCH}
- git add -A
- git status
- git commit -m "release v${VERSION}"
+
+head -n -5 manifests/deployment.yml > manifests/deployment.yml.tmp
+echo "releases:
+- name: credhub-webui
+  version: $VERSION
+  sha1: $SHA1
+  url: https://github.com/shreddedbacon/credhub-webui-boshrelease/releases/download/v$VERSION/credhub-webui-boshrelease-$VERSION.tgz" >> manifests/deployment.yml.tmp
+mv manifests/deployment.yml.tmp manifests/deployment.yml
+
+git merge --no-edit ${BRANCH}
+git add -A
+git status
+git commit -m "release v${VERSION}"
 popd
 
 # so that future steps in the pipeline can push our changes

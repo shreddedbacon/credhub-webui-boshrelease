@@ -1,12 +1,6 @@
 ---
 name: credhub-webui
 
-releases:
-- name: credhub-webui
-  version: 0.0.3
-  sha1: f2ded595e26b56034026cd7bd46659e25840eec8
-  url: https://github.com/shreddedbacon/credhub-webui-boshrelease/releases/download/v0.0.3/credhub-webui-boshrelease-0.0.3.tgz
-
 stemcells:
 - os: ubuntu-trusty
   alias: default
@@ -46,3 +40,9 @@ update:
   max_in_flight: 3
   canary_watch_time: 30000-600000
   update_watch_time: 5000-600000
+
+releases:
+- name: credhub-webui
+  version: 0.0.4
+  sha1: 042399cdebaabb26c6b54e8ed027350da91d4686
+  url: https://github.com/shreddedbacon/credhub-webui-boshrelease/releases/download/v0.0.4/credhub-webui-boshrelease-0.0.4.tgz
