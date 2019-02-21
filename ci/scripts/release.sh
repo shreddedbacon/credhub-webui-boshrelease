@@ -30,11 +30,13 @@ EOF
 pushd bosh-release
 
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
-ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
-
-git status
-git commit -m "new blob $NEW_VERSION" config/blobs.yml
+repo_changes=0; git status | grep -q "Changes not staged for commit" && repo_changes=1
+if [ $repo_changes == 1 ]
+then
+  git status
+  git commit -m "new blob $NEW_VERSION" config/blobs.yml
+fi
 
 mkdir -p releases/${RELEASE_NAME}/${RELEASE_NAME}
 bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final

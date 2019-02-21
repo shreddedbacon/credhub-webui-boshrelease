@@ -112,6 +112,9 @@ jobs:
             GITHUB_REPO:  ((github.repository))
             BRANCH:       ((github.branch))
             RELEASE_NAME: credhub-webui-boshrelease
+            AWS_ACCESS_KEY: ((aws.access_key))
+            AWS_SECRET_KEY: ((aws.secret_key))
+            AWS_ENDPOINT: ((aws.endpoint))
       - name: release
         task: release
         config:
