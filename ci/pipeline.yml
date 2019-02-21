@@ -11,7 +11,7 @@ groups:
       - bump-minor
 
 jobs:
-  - name: blobs
+  - name: test-release
     public: true
     serial: true
     plan:
@@ -22,6 +22,7 @@ jobs:
           params:
             include_source_tarball: true
         - get: bosh-release
+        - get: version
       - task: add-upload-blob
         config:
           platform: linux
@@ -37,12 +38,19 @@ jobs:
           run:
             path: ./bosh-release/ci/scripts/addblobs.sh
           params:
+            VERSION_FROM: version/number
+            BOSH_TARGET: ((bosh_environment))
+            BOSH_DEPLOYMENT: credhub-credhub
+            BOSH_CA_CERT: ((bosh_ca_cert))
+            BOSH_USERNAME: admin
+            BOSH_PASSWORD: ((bosh_client_secret))
+            CREDHUB_ADMIN_SECRET: ((credhub_client_secret))
 #      - name: upload-git
 #        put: bosh-release
 #        params:
 #          repository: pushgit/bosh-release
 
-  - name: test-release
+  - name: blobs
     public: true
     serial: true
     plan:
@@ -173,13 +181,13 @@ resources:
       branch:      ((github.branch))
       private_key: ((github.private_key))
 
-  - name: github-release
-    type: github-release
-    check_every: 15m
-    source:
-      user:         ((github.user))
-      repository:   ((github.repository))
-      access_token: ((github.access_token))
+#  - name: github-release
+#    type: github-release
+#    check_every: 15m
+#    source:
+#      user:         ((github.user))
+#      repository:   ((github.repository))
+#      access_token: ((github.access_token))
 
   - name: credhub-webui-external
     type: github-release
