@@ -22,7 +22,7 @@ ls ../credhub-webui-external/
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
 
 mkdir -p releases/${RELEASE_NAME}/${RELEASE_NAME}
-bosh -n create-release --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
+bosh -n create-release --force --tarball=releases/${RELEASE_NAME}/${RELEASE_NAME}-${VERSION}.tgz --version "${VERSION}" --final
 popd
 
 mkdir -p gh/artifacts
