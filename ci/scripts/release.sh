@@ -28,7 +28,7 @@ blobstore:
 EOF
 
 pushd bosh-release
-
+echo > config/blobs.yml
 NEW_VERSION=credhub-webui-linux-$(cat ../credhub-webui-external/version).tar.gz
 bosh add-blob ../credhub-webui-external/$NEW_VERSION credhub-webui/$NEW_VERSION
 repo_changes=0; git status | grep -q "Changes not staged for commit" && repo_changes=1
